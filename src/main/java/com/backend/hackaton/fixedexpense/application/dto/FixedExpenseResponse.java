@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,6 +20,8 @@ public class FixedExpenseResponse {
     private String description;
     private BigDecimal amount;
     private String frequency;
+    private LocalDate nextOccurrenceDate;
+    private LocalDate lastOccurrenceDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Boolean active;

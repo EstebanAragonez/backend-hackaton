@@ -1,5 +1,6 @@
 package com.backend.hackaton.fixedexpense.infrastructure.persistence;
 
+import com.backend.hackaton.fixedexpense.domain.FixedExpenseFrequency;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,8 +35,15 @@ public class FixedExpenseJpaEntity {
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private String frequency; // MONTHLY, WEEKLY, YEARLY
+    private FixedExpenseFrequency frequency; // MONTHLY, WEEKLY, YEARLY
+
+    @Column(name = "next_occurrence_date", nullable = false)
+    private LocalDate nextOccurrenceDate;
+
+    @Column(name = "last_occurrence_date")
+    private LocalDate lastOccurrenceDate;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

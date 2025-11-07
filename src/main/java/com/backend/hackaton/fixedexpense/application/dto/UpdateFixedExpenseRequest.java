@@ -1,5 +1,6 @@
 package com.backend.hackaton.fixedexpense.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -24,5 +26,10 @@ public class UpdateFixedExpenseRequest {
 
     @Pattern(regexp = "MONTHLY|WEEKLY|YEARLY", message = "La frecuencia debe ser MONTHLY, WEEKLY o YEARLY")
     private String frequency;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate nextOccurrenceDate;
+
+    private Boolean active;
 }
 

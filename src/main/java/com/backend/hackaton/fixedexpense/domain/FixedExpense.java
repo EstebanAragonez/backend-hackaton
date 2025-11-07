@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,7 +19,9 @@ public class FixedExpense {
     private String name;
     private String description;
     private BigDecimal amount; // Monto del gasto fijo
-    private String frequency; // MONTHLY, WEEKLY, YEARLY
+    private FixedExpenseFrequency frequency; // WEEKLY, MONTHLY, YEARLY
+    private LocalDate nextOccurrenceDate;
+    private LocalDate lastOccurrenceDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Boolean active;

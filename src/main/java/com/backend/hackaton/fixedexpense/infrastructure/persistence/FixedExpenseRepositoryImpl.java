@@ -5,6 +5,7 @@ import com.backend.hackaton.fixedexpense.domain.FixedExpenseRepository;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,6 +35,12 @@ public class FixedExpenseRepositoryImpl implements FixedExpenseRepository {
     }
 
     @Override
+    public Optional<FixedExpense> findByIdAndUserId(Long id, Long userId) {
+        return jpaRepository.findByIdAndUserId(id, userId)
+                .map(mapper::toDomain);
+    }
+
+    @Override
     public List<FixedExpense> findByUserId(Long userId) {
         return jpaRepository.findByUserId(userId).stream()
                 .map(mapper::toDomain)
@@ -43,6 +50,13 @@ public class FixedExpenseRepositoryImpl implements FixedExpenseRepository {
     @Override
     public List<FixedExpense> findByUserIdAndActive(Long userId, Boolean active) {
         return jpaRepository.findByUserIdAndActive(userId, active).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FixedExpense> findActiveDueUntil(LocalDate dueDate) {
+        return jpaRepository.findActiveDueUntil(dueDate).stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }

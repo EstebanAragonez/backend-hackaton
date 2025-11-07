@@ -3,9 +3,12 @@ package com.backend.hackaton.fixedexpense.application.usecase;
 import com.backend.hackaton.fixedexpense.application.dto.FixedExpenseRequest;
 import com.backend.hackaton.fixedexpense.application.dto.FixedExpenseResponse;
 import com.backend.hackaton.fixedexpense.domain.FixedExpense;
+import com.backend.hackaton.fixedexpense.domain.FixedExpenseFrequency;
 import com.backend.hackaton.fixedexpense.domain.FixedExpenseRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 
 @Service
 public class CreateFixedExpenseUseCase {
@@ -18,12 +21,19 @@ public class CreateFixedExpenseUseCase {
 
     @Transactional
     public FixedExpenseResponse execute(Long userId, FixedExpenseRequest request) {
+        FixedExpenseFrequency frequency = FixedExpenseFrequency.valueOf(request.getFrequency());
+        LocalDate nextOccurrence = request.getFirstExecutionDate() != null
+                ? request.getFirstExecutionDate()
+                : LocalDate.now();
+
         FixedExpense fixedExpense = FixedExpense.builder()
                 .userId(userId)
                 .name(request.getName())
                 .description(request.getDescription())
                 .amount(request.getAmount())
-                .frequency(request.getFrequency())
+                .frequency(frequency)
+                .nextOccurrenceDate(nextOccurrence)
+                .lastOccurrenceDate(null)
                 .active(true)
                 .build();
 
@@ -39,7 +49,9 @@ public class CreateFixedExpenseUseCase {
                 .name(fixedExpense.getName())
                 .description(fixedExpense.getDescription())
                 .amount(fixedExpense.getAmount())
-                .frequency(fixedExpense.getFrequency())
+                .frequency(fixedExpense.getFrequency().name())
+                .nextOccurrenceDate(fixedExpense.getNextOccurrenceDate())
+                .lastOccurrenceDate(fixedExpense.getLastOccurrenceDate())
                 .createdAt(fixedExpense.getCreatedAt())
                 .updatedAt(fixedExpense.getUpdatedAt())
                 .active(fixedExpense.getActive())
