@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: backend-hackaton
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hackaton
+    username: postgres
+    password: Brigadier524
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+jwt:
+  secret: ${JWT_SECRET:mySecretKeyForJWTTokenGenerationAndValidationMustBeAtLeast256BitsLong}
+  expiration: 86400000 # 24 horas en milisegundos
+
+logging:
+  level:
+    com.backend.hackaton: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
